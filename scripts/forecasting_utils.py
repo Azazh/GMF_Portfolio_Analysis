@@ -93,3 +93,45 @@ def plot_forecast(test, forecast):
     plt.legend()
     plt.savefig(Path("../visualizations/tesla_forecast_arima.png"))
     plt.show()
+# scripts/forecasting_utils.py (continued)
+
+def forecast_future_arima(model, steps=180):
+    """
+    Generate future forecasts using the trained ARIMA model.
+    """
+    # Forecast future values
+    forecast, conf_int = model.predict(n_periods=steps, return_conf_int=True)
+    
+    print("Forecast Generated for", steps, "days.")
+    return forecast, conf_int
+
+def plot_future_forecast(train, test, forecast, conf_int):
+    """
+    Plot historical data, test set, and future forecast with confidence intervals.
+    """
+    plt.figure(figsize=(14, 7))
+    
+    # Historical data
+    plt.plot(train.index, train, label="Training Data", color="blue")
+    plt.plot(test.index, test, label="Testing Data", color="green")
+    
+    # Future forecast
+    future_dates = pd.date_range(start=test.index[-1], periods=len(forecast) + 1, freq="D")[1:]
+    plt.plot(future_dates, forecast, label="Future Forecast", color="red")
+    
+    # Confidence intervals
+    plt.fill_between(
+        future_dates,
+        conf_int[:, 0],
+        conf_int[:, 1],
+        color="pink",
+        alpha=0.3,
+        label="Confidence Interval"
+    )
+    
+    plt.title("Tesla Stock Price Forecast (ARIMA)")
+    plt.xlabel("Date")
+    plt.ylabel("Close Price")
+    plt.legend()
+    plt.savefig(Path("../visualizations/tesla_future_forecast_arima.png"))
+    plt.show()

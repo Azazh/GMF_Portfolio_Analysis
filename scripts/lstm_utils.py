@@ -3,7 +3,6 @@
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import LSTM, Dense
 
 def prepare_lstm_data(data, look_back=60):
     """
@@ -35,3 +34,28 @@ def build_lstm_model(input_shape):
     
     model.compile(optimizer="adam", loss="mean_squared_error")
     return model
+# scripts/lstm_utils.py (continued)
+
+def forecast_future_lstm(model, scaler, last_sequence, steps=180):
+    """
+    Generate future forecasts using the trained LSTM model.
+    """
+    future_forecast = []
+    current_sequence = last_sequence.copy()
+    
+    for _ in range(steps):
+        # Predict the next value
+        next_value = model.predict(current_sequence.reshape(1, -1, 1))
+        
+        # Append the prediction to the forecast
+        future_forecast.append(next_value[0, 0])
+        
+        # Update the sequence for the next prediction
+        current_sequence = np.roll(current_sequence, -1)
+        current_sequence[-1] = next_value
+    
+    # Inverse transform the forecasted values
+    future_forecast = scaler.inverse_transform(np.array(future_forecast).reshape(-1, 1)).flatten()
+    
+    print("Forecast Generated for", steps, "days.")
+    return future_forecast
