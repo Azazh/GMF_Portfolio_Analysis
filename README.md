@@ -1,6 +1,4 @@
 
-
-
 # **GMF Portfolio Analysis**
 
 ![GitHub License](https://img.shields.io/badge/license-MIT-blue.svg) ![Python Version](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10-blue)
@@ -16,12 +14,12 @@ The dataset includes historical financial metrics (e.g., Open, High, Low, Close,
 The project is structured into reusable scripts, Jupyter notebooks, and visualizations to ensure modularity and reproducibility.
 
 
-
 ## **Features**
 - **Data Preprocessing:** Fetch, clean, and prepare raw financial data for analysis.
 - **Exploratory Data Analysis (EDA):** Analyze trends, volatility, and patterns in the data.
+- **Time Series Forecasting:** Build ARIMA and LSTM models to predict Tesla's future stock prices.
+- **Portfolio Optimization:** Optimize asset allocations based on forecasted trends to maximize returns and minimize risks.
 - **Visualization:** Generate insightful plots to understand asset performance and risk.
-- **Portfolio Insights:** Provide actionable recommendations based on statistical analysis.
 
 
 
@@ -42,12 +40,17 @@ GMF_Portfolio_Analysis/
 │   └── processed_data.csv    # Cleaned and preprocessed data
 │
 ├── notebooks/                # Jupyter Notebooks for analysis
-│   └── Task1_Data_Preprocessing.ipynb  # Notebook for Task 1
+│   ├── Task1_Data_Preprocessing.ipynb  # Notebook for Task 1
+│   ├── Task2_TimeSeriesForecasting.ipynb  # Notebook for Task 2
+│   ├── Task3_ForecastFutureTrends.ipynb  # Notebook for Task 3
+│   └── Task4_PortfolioOptimization.ipynb  # Notebook for Task 4
 │
 ├── scripts/                  # Reusable Python scripts
 │   ├── __init__.py           # Makes the folder a Python package
 │   ├── data_preprocessing.py # Functions for data cleaning and preprocessing
-│   └── eda_utils.py          # Functions for exploratory data analysis
+│   ├── eda_utils.py          # Functions for exploratory data analysis
+│   ├── forecasting_utils.py  # Functions for time series forecasting
+│   └── portfolio_optimization.py  # Functions for portfolio optimization
 │
 ├── src/                      # Source code for reusable modules
 │   └── utils.py              # Utility functions (e.g., file handling)
@@ -59,7 +62,9 @@ GMF_Portfolio_Analysis/
 │   ├── closing_prices.png    # Closing prices plot
 │   ├── daily_returns.png     # Daily returns plot
 │   ├── tesla_volatility.png  # Tesla rolling mean/std dev plot
-│   └── tesla_decomposition.png # Time series decomposition plot
+│   ├── tesla_decomposition.png # Time series decomposition plot
+│   ├── tesla_future_forecast_arima.png # Future forecast plot
+│   └── portfolio_cumulative_returns.png # Portfolio cumulative returns plot
 │
 ├── README.md                 # Project description and instructions
 └── requirements.txt          # List of Python dependencies
@@ -97,31 +102,38 @@ GMF_Portfolio_Analysis/
    python scripts/data_preprocessing.py
    ```
 
-5. **Run the Notebook:**
+5. **Run the Notebooks:**
    Launch Jupyter Notebook to execute the analysis:
    ```bash
-   jupyter notebook notebooks/Task1_Data_Preprocessing.ipynb
+   jupyter notebook notebooks/
    ```
 
 
 
-## **Usage**
+## **Tasks Completed**
 
-### **1. Data Preprocessing**
-The `scripts/data_preprocessing.py` script performs the following tasks:
-- Fetches historical financial data for TSLA, BND, and SPY using the `yfinance` library.
-- Cleans and preprocesses the data (handles missing values, ensures correct data types).
-- Saves the cleaned data to `data/processed_data.csv`.
+### **Task 1: Data Preprocessing and Exploratory Analysis**
+- Fetched historical financial data for TSLA, BND, and SPY using the `yfinance` library.
+- Cleaned and preprocessed the data (handled missing values, ensured correct data types).
+- Performed exploratory data analysis (EDA) to analyze trends, volatility, and patterns.
+- Generated visualizations such as closing prices, daily returns, rolling statistics, and time series decomposition.
 
-### **2. Exploratory Data Analysis (EDA)**
-The `scripts/eda_utils.py` script provides functions to analyze and visualize the data:
-- **Closing Prices:** Visualize trends over time.
-- **Daily Returns:** Analyze volatility and daily percentage changes.
-- **Volatility Analysis:** Calculate rolling means and standard deviations.
-- **Time Series Decomposition:** Break down Tesla's price movements into trend, seasonal, and residual components.
+### **Task 2: Time Series Forecasting Models**
+- Built and evaluated forecasting models for Tesla's stock prices using:
+  - **ARIMA**: A statistical model suitable for univariate time series.
+  - **LSTM**: A deep learning model capable of capturing complex patterns.
+- Compared the performance of both models using metrics like MAE, RMSE, and MAPE.
 
-### **3. Generate Reports**
-The Jupyter Notebook (`Task1_Data_Preprocessing.ipynb`) combines the outputs of the above scripts to generate visualizations and textual summaries. These outputs can be used to create professional reports for stakeholders.
+### **Task 3: Forecast Future Market Trends**
+- Used the trained ARIMA model to forecast Tesla's stock prices for the next 6–12 months.
+- Analyzed the forecasted trends, confidence intervals, and potential risks.
+- Provided insights into opportunities and risks based on the forecast.
+
+### **Task 4: Optimize Portfolio Based on Forecast**
+- Combined forecasted data for TSLA, BND, and SPY to optimize a sample investment portfolio.
+- Calculated portfolio metrics such as expected return, risk (volatility), Sharpe Ratio, and Value at Risk (VaR).
+- Optimized asset allocations to maximize returns while minimizing risks.
+- Visualized cumulative portfolio returns and analyzed the results.
 
 
 
@@ -141,11 +153,12 @@ The Jupyter Notebook (`Task1_Data_Preprocessing.ipynb`) combines the outputs of 
 | BND       | 0.0001          | 0.0034      | -0.0544        | 0.0422         |
 | SPY       | 0.0006          | 0.0111      | -0.1094        | 0.0906         |
 
-### **Visualizations**
-- **Closing Prices Over Time**
-- **Daily Percentage Changes**
-- **Tesla's Rolling Mean and Standard Deviation**
-- **Tesla's Time Series Decomposition**
+### **Optimized Portfolio**
+- **Weights**: TSLA = 0.00%, BND = 100.00%, SPY = 0.00%
+- **Expected Return**: 66.93%
+- **Risk (Volatility)**: 0.01%
+- **Sharpe Ratio**: 4491.20
+- **Value at Risk (VaR)**: -0.26% at 95% confidence level
 
 
 
@@ -167,11 +180,11 @@ This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) f
 ## **Contact**
 For questions or feedback, feel free to reach out:
 - Email: azazhwuletaw@gmail.com
-- GitHub:https://github.com/azazh
+- GitHub: https://github.com/azazh
 
 
 
-### **Acknowledgments**
+## **Acknowledgments**
 - **yfinance:** For providing access to historical financial data.
 - **Pandas, Matplotlib, Statsmodels:** For data manipulation, visualization, and analysis.
-
+- **TensorFlow, Scikit-learn:** For building and evaluating machine learning models.
